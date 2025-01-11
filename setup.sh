@@ -630,15 +630,6 @@ function waCheckInstallDependencies() {
     # 'FreeRDP' (Version 3).
     # Attempt to set a FreeRDP command if the command variable is empty.
     if [ -z "$FREERDP_COMMAND" ]; then
-        # Check common commands used to launch FreeRDP.
-        if command -v xfreerdp &>/dev/null; then
-            # Check FreeRDP major version is 3 or greater.
-            FREERDP_MAJOR_VERSION=$(xfreerdp --version | head -n 1 | grep -o -m 1 '\b[0-9]\S*' | head -n 1 | cut -d'.' -f1)
-            if [[ $FREERDP_MAJOR_VERSION =~ ^[0-9]+$ ]] && ((FREERDP_MAJOR_VERSION >= 3)); then
-                FREERDP_COMMAND="xfreerdp"
-            fi
-        fi
-
         # Check for xfreerdp3 command as a fallback option.
         if [ -z "$FREERDP_COMMAND" ]; then
             if command -v xfreerdp3 &>/dev/null; then
@@ -647,6 +638,15 @@ function waCheckInstallDependencies() {
                 if [[ $FREERDP_MAJOR_VERSION =~ ^[0-9]+$ ]] && ((FREERDP_MAJOR_VERSION >= 3)); then
                     FREERDP_COMMAND="xfreerdp3"
                 fi
+            fi
+        fi
+
+        # Check common commands used to launch FreeRDP.
+        if command -v xfreerdp &>/dev/null; then
+            # Check FreeRDP major version is 3 or greater.
+            FREERDP_MAJOR_VERSION=$(xfreerdp --version | head -n 1 | grep -o -m 1 '\b[0-9]\S*' | head -n 1 | cut -d'.' -f1)
+            if [[ $FREERDP_MAJOR_VERSION =~ ^[0-9]+$ ]] && ((FREERDP_MAJOR_VERSION >= 3)); then
+                FREERDP_COMMAND="xfreerdp"
             fi
         fi
 
