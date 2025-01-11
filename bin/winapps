@@ -582,6 +582,7 @@ function waRunCommand() {
             # Convert path from UNIX to Windows style.
             FILE_PATH=$(echo "$2" | sed \
                 -e 's|'"${HOME}"'|\\\\tsclient\\home|' \
+                -e 's|'"/data"'|\\\\tsclient\\data|' \
                 -e 's|/|\\|g')
             dprint "UNIX_FILE_PATH: ${2}"
             dprint "WINDOWS_FILE_PATH: ${FILE_PATH}"
@@ -591,6 +592,7 @@ function waRunCommand() {
                 /u:"$RDP_USER" \
                 /p:"$RDP_PASS" \
                 /scale:"$RDP_SCALE" \
+                /drive:data,/data \
                 +dynamic-resolution \
                 +auto-reconnect \
                 +home-drive \
